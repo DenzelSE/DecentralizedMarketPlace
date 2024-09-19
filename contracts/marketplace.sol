@@ -2,16 +2,50 @@
 pragma solidity ^0.8.16;
 
 contract Marketplace {
-    mapping (uint => string) internal products;
+    mapping (uint => Product) internal products;
 
     // string internal product;
 
-    function writeProduct(uint _index, string memory _product) public {
-        products[_index] = _product;
+    function writeProduct(
+        
+        uint _index,
+        string memory _name,
+        string memory _image,
+        string memory _description,
+        string memory _location,
+        uint _price
+        
+    ) public {
+        uint _sold = 0;
+        products[_index] = Product(
+            payable(msg.sender),
+            _name,
+            _image,
+            _description,
+            _location,
+            _price,
+            _sold
+        );
     }
 
-    function readProduct(uint _index) public view returns (string memory){
-        return products[_index];
+    function readProduct(uint _index) public view returns (
+        address payable,
+        string memory,
+        string memory,
+        string memory,
+        string memory,
+        uint,
+        uint
+        ){
+        return (
+            products[_index].owner,
+            products[_index].name,
+            products[_index].image,
+            products[_index].description,
+            products[_index].location,
+            products[_index].price,
+            products[_index].sold
+        );
     }
     struct Product {
         address payable owner;
