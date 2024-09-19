@@ -3,12 +3,13 @@ pragma solidity ^0.8.16;
 
 contract Marketplace {
     mapping (uint => Product) internal products;
+    uint internal productlength = 0;
 
     // string internal product;
 
     function writeProduct(
         
-        uint _index,
+        
         string memory _name,
         string memory _image,
         string memory _description,
@@ -17,7 +18,7 @@ contract Marketplace {
         
     ) public {
         uint _sold = 0;
-        products[_index] = Product(
+        products[productlength] = Product(
             payable(msg.sender),
             _name,
             _image,
@@ -26,6 +27,7 @@ contract Marketplace {
             _price,
             _sold
         );
+        productlength++;
     }
 
     function readProduct(uint _index) public view returns (
@@ -47,6 +49,7 @@ contract Marketplace {
             products[_index].sold
         );
     }
+
     struct Product {
         address payable owner;
         string name;
@@ -56,5 +59,8 @@ contract Marketplace {
         uint price;
         uint sold;
 
+    }
+    function getProductsLength() public view returns (uint){
+        return (productlength);
     }
 }
